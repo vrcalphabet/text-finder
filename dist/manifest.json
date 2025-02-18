@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/chrome-manifest.json",
+  "manifest_version": 3,
+  "name": "テキストファインダー",
+  "version": "1.0.0",
+  "content_scripts": [{
+    "matches": ["*://vrchat.com/*"],
+    "js": ["app.js"]
+  }],
+  "permissions": []
+}
