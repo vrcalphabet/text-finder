@@ -47,7 +47,6 @@ export default class NodeFinder {
         this.recursive(childNode);
       });
     } else if (node instanceof SVGElement) {
-      // TODO: svg取得されない
       this.checkTitle(node);
     }
   }
@@ -98,8 +97,21 @@ export default class NodeFinder {
 
   private isElementInFront(node: HTMLElement | SVGElement): boolean {
     const centerPos = this.calcCenterPos(node);
-    const elementPaths = document.elementsFromPoint(centerPos.x, centerPos.y);
-    return elementPaths.includes(node);
+    const element = document.elementFromPoint(centerPos.x, centerPos.y);
+    if (!element) return false;
+    
+    return this.getAncestors(element).includes(node);
+  }
+
+  private getAncestors(node: Element): Element[] {
+    const ancestors: Element[] = [];
+    let current: Element | null = node;
+
+    while (current) {
+      ancestors.unshift(current);
+      current = current.parentElement;
+    }
+    return ancestors;
   }
 
   private calcCenterPos(node: HTMLElement | SVGElement): IPosition {

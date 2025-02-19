@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import OverlayContainer from './OverlayContainer';
 
 const container = document.createElement('div');
-container.id = 'overlay';
+container.id = 'text-finder';
 document.body.append(container);
 
 ReactDOM.createRoot(container).render(
