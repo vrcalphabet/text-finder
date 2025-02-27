@@ -9,6 +9,5 @@
       "js": ["./src/content/main.tsx"]
     }
   ],
-  "permissions": [],
   "host_permissions": ["*://localhost/*"]
 }
