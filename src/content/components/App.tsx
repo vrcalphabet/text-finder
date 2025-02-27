@@ -9,15 +9,21 @@ interface Props {
 }
 
 const App: React.FC<Props> = ({ shadowRoot }) => {
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const [currentOverlay, setCurrentOverlay] = useState<INodeData | null>(null);
-  
+
   return (
     <>
       <Styles />
-      <Overlays shadowRoot={shadowRoot} setCurrentOverlay={setCurrentOverlay} />
-      <Panel currentOverlay={currentOverlay} />
+      <Overlays
+        shadowRoot={shadowRoot}
+        setCurrentOverlay={setCurrentOverlay}
+        isOverlayVisible={isOverlayVisible}
+        setIsOverlayVisible={setIsOverlayVisible}
+      />
+      <Panel currentOverlay={currentOverlay} isOverlayVisible={isOverlayVisible} />
     </>
-  )
+  );
 };
 
 export default App;

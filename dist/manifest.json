@@ -5,11 +5,12 @@
   "version": "1.0.0",
   "content_scripts": [
     {
+      "js": [
+        "assets/css-injection.js",
+        "assets/main.tsx-loader-DvnK5vtd.js"
+      ],
       "matches": [
         "*://vrchat.com/*"
-      ],
-      "js": [
-        "./src/content/main.tsx-loader.js"
       ]
     }
   ],
@@ -17,18 +18,14 @@
   "host_permissions": [
     "*://localhost/*"
   ],
-  "background": {
-    "service_worker": "service-worker-loader.js",
-    "type": "module"
-  },
   "web_accessible_resources": [
     {
       "matches": [
-        "<all_urls>"
+        "*://vrchat.com/*"
       ],
       "resources": [
-        "**/*",
-        "*"
+        "assets/main.tsx-hwFtRXKv.js",
+        "assets/main-QO04dVIp.css"
       ],
       "use_dynamic_url": false
     }

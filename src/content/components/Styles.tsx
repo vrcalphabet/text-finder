@@ -1,11 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
+import InjectionObserver from '../models/InjectionObserver';
 
 const Styles: React.FC = () => {
   const [styles, setStyles] = useState<Element[]>([]);
 
   useEffect(() => {
-    const styles = document.querySelectorAll('#vite-styles > style');
-    setStyles([...styles]);
+    InjectionObserver.observe(document.head, () => {
+      const styles = document.head.querySelectorAll('style[data-vite-dev-id]');
+      setStyles([...styles]);
+      return false;
+    });
   }, []);
 
   return (

@@ -6,9 +6,10 @@ import XPathGenerator from '../models/XpathGenerator';
 
 interface Props {
   currentOverlay: INodeData | null;
+  isOverlayVisible: boolean;
 }
 
-const Panel: React.FC<Props> = ({ currentOverlay }) => {
+const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [panel, setPanel] = useState<HTMLDivElement | null>(null);
 
@@ -19,7 +20,9 @@ const Panel: React.FC<Props> = ({ currentOverlay }) => {
   return (
     <div
       ref={panelRef}
-      className="w-96 right-2.5 p-5 space-y-2.5 fixed bottom-2.5 bg-black/90 rounded-xl border border-gray-500/50"
+      className={`w-96 right-2.5 p-5 space-y-2.5 fixed bottom-2.5 bg-black/90 rounded-xl border border-solid border-gray-500/50 ${
+        isOverlayVisible ? '' : 'hidden'
+      }`}
     >
       <Draggable target={panel} />
       <Entry

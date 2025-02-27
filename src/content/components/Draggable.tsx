@@ -33,12 +33,12 @@ const Draggable: React.FC<Props> = ({ target }) => {
     const y = windowHeight - (event.clientY - offsetRef.current.y);
     target!.style.right = `${x}px`;
     target!.style.bottom = `${y}px`;
+    reposition();
   }
 
   function mouseUpHandler(): void {
     document.removeEventListener('mousemove', mouseMoveHandler);
     document.removeEventListener('mouseup', mouseUpHandler);
-    reposition();
   }
 
   function reposition(): void {

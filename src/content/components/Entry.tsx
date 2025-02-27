@@ -11,7 +11,7 @@ const Entry: React.FC<Props> = ({ title, value }) => {
     <div>
       <h2 className="text-xl select-none">{title}</h2>
       <Copy fillColor="white" value={value} />
-      <div className="h-14 p-0.5 pr-18 relative border border-gray-500 cursor-text whitespace-nowrap overflow-x-auto">
+      <div className="h-14 p-0.5 pr-18 relative border border-solid border-gray-500 cursor-text whitespace-nowrap overflow-x-auto">
         {value}
       </div>
     </div>

@@ -7,27 +7,33 @@ import NodeSelector from '../models/OverlaySelector';
 interface Props {
   shadowRoot: ShadowRoot;
   setCurrentOverlay: (value: INodeData | null) => void;
+  isOverlayVisible: boolean;
+  setIsOverlayVisible: (value: boolean) => void;
 }
 
-const Overlays: React.FC<Props> = ({ shadowRoot, setCurrentOverlay }) => {
+const Overlays: React.FC<Props> = ({
+  shadowRoot,
+  setCurrentOverlay,
+  isOverlayVisible,
+  setIsOverlayVisible,
+}) => {
   const [nodes, setNodes] = useState<INodeData[]>([]);
-  const [isVisible, setIsVisible] = useState(false);
   const [hoverGroupId, setHoverGroupId] = useState<number | null>(null);
   const [activeGroupId, setActiveGroupId] = useState<number | null>(null);
 
   useEffect(() => {
     Mousetrap.bind('alt+h', () => {
-      setIsVisible(false);
+      setIsOverlayVisible(false);
       setTimeout(() => {
         const foundNodes = NodeFinder.getInstance().findNodes();
         setNodes(foundNodes);
-        setIsVisible(true);
+        setIsOverlayVisible(true);
       }, 0);
       return false;
     });
 
     Mousetrap.bind('esc', () => {
-      setIsVisible(false);
+      setIsOverlayVisible(false);
     });
   }, []);
 
@@ -55,7 +61,7 @@ const Overlays: React.FC<Props> = ({ shadowRoot, setCurrentOverlay }) => {
 
   return (
     <div
-      className={`w-full h-full fixed bg-white/15 ${isVisible ? '' : 'hidden'}`}
+      className={`w-full h-full fixed bg-white/15 ${isOverlayVisible ? '' : 'hidden'}`}
       onMouseMove={containerMouseMoveHandler}
       onClick={containerClickHandler}
     >
@@ -65,7 +71,7 @@ const Overlays: React.FC<Props> = ({ shadowRoot, setCurrentOverlay }) => {
             <div
               key={`overlay-${index}-${innerIndex}`}
               data-overlay-id={innerIndex}
-              className={`absolute cursor-pointer border ${
+              className={`absolute cursor-pointer border border-solid ${
                 activeGroupId === index || hoverGroupId === index
                   ? 'bg-white/25 border-white/50'
                   : 'bg-red-500/25 border-red-500/50'
