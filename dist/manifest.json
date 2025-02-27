@@ -3,9 +3,34 @@
   "manifest_version": 3,
   "name": "テキストファインダー",
   "version": "1.0.0",
-  "content_scripts": [{
-    "matches": ["*://vrchat.com/*"],
-    "js": ["app.js"]
-  }],
-  "permissions": []
+  "content_scripts": [
+    {
+      "matches": [
+        "*://vrchat.com/*"
+      ],
+      "js": [
+        "./src/content/main.tsx-loader.js"
+      ]
+    }
+  ],
+  "permissions": [],
+  "host_permissions": [
+    "*://localhost/*"
+  ],
+  "background": {
+    "service_worker": "service-worker-loader.js",
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "resources": [
+        "**/*",
+        "*"
+      ],
+      "use_dynamic_url": false
+    }
+  ]
 }

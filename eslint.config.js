@@ -1,120 +1,43 @@
-import typescriptEslint from '@typescript-eslint/eslint-plugin';
-import tsParser from '@typescript-eslint/parser';
+import js from '@eslint/js';
+import globals from 'globals';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import tseslint from 'typescript-eslint';
 
-export default [
+export default tseslint.config(
+  { ignores: ['dist'] },
   {
-    files: ['**/*.ts', '**/*.tsx'],
-  },
-  {
-    plugins: {
-      '@typescript-eslint': typescriptEslint,
-    },
-
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: tsParser,
-      ecmaVersion: 2022,
-      sourceType: 'module',
-      parserOptions: {
-        project: './tsconfig.json',
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
+      ecmaVersion: 2020,
+      globals: globals.browser,
     },
-
+    plugins: {
+      'react-hooks': reactHooks,
+      'react-refresh': reactRefresh,
+    },
     rules: {
-      // 命名規則
-      '@typescript-eslint/naming-convention': [
-        'warn',
-        {
-          selector: 'import',
-          format: ['camelCase', 'PascalCase'],
-        },
-        {
-          selector: 'interface',
-          format: ['PascalCase'],
-          prefix: ['I'],
-        },
-        {
-          selector: 'class',
-          format: ['PascalCase'],
-        },
-        {
-          selector: 'method',
-          format: ['camelCase'],
-        },
-        {
-          selector: 'classProperty',
-          modifiers: ['private'],
-          format: ['camelCase'],
-          leadingUnderscore: 'allow',
-        },
-      ],
-
-      // メソッドのアクセシビリティ
-      '@typescript-eslint/explicit-member-accessibility': ['error', { accessibility: 'explicit' }],
-
-      // 型の明示的な指定
-      '@typescript-eslint/explicit-function-return-type': [
-        'warn',
-        {
-          allowExpressions: true,
-          allowTypedFunctionExpressions: true,
-        },
-      ],
-
-      // プリミティブ型の明示的な指定を禁止
-      '@typescript-eslint/no-inferrable-types': 'warn',
-
-      // 未使用の変数
+      ...reactHooks.configs.recommended.rules,
+      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
+          varsIgnorePattern: '^(_|useEffect$|useState$|useRef$)',
         },
       ],
-
-      // Promise の適切な処理
-      '@typescript-eslint/no-floating-promises': 'warn',
-
-      // 一般的なルール
-      eqeqeq: 'warn',
-      'no-throw-literal': 'warn',
-      semi: 'warn',
-      quotes: ['warn', 'single', { allowTemplateLiterals: true }],
-
-      // 配列の型指定
-      '@typescript-eslint/array-type': [
-        'warn',
+      '@typescript-eslint/explicit-function-return-type': [
+        'error',
         {
-          default: 'array',
+          allowExpressions: false,
         },
       ],
-
-      // 装飾子忘れの防止
-      '@typescript-eslint/explicit-member-accessibility': ['error', { accessibility: 'explicit' }],
-
-      // プロミスの戻り値の型指定
-      '@typescript-eslint/promise-function-async': 'warn',
-
-      // オブジェクトの型指定
-      '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
-
-      // 不要なキャスト
-      '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
-
-      // 明示的なany
-      '@typescript-eslint/no-explicit-any': 'warn',
-
-      // 固定された条件
-      'no-constant-condition': 'error',
+      '@typescript-eslint/explicit-member-accessibility': [
+        'error',
+        {
+          accessibility: 'explicit',
+        },
+      ],
     },
-
-    settings: {
-      'import/resolver': {
-        typescript: {},
-      },
-    },
-  },
-];
+  }
+);

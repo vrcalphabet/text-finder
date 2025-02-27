@@ -1,12 +1,16 @@
 // オーバレイの重なりから面積が一番小さい要素を選択して返す
-export default class NodeSelector {
-  public static select(mouseX: number, mouseY: number): HTMLElement | null {
-    const elements = document.elementsFromPoint(mouseX, mouseY) as HTMLElement[];
+export default class OverlaySelector {
+  public static select(
+    root: Document | ShadowRoot,
+    mouseX: number,
+    mouseY: number
+  ): HTMLElement | null {
+    const elements = root.elementsFromPoint(mouseX, mouseY) as HTMLElement[];
     return this.selectOverlayBySize(this.filterOverlay(elements));
   }
 
   private static filterOverlay(elements: HTMLElement[]): HTMLElement[] {
-    return elements.filter((element) => element.classList.contains('overlay-container__overlay'));
+    return elements.filter((element) => element?.dataset.overlayId !== void 0);
   }
 
   private static selectOverlayBySize(overlays: HTMLElement[]): HTMLElement | null {
@@ -20,6 +24,6 @@ export default class NodeSelector {
       return prev.size < current.size ? prev : current;
     });
 
-    return smallestOverlay.target;
+    return smallestOverlay.target.parentElement;
   }
 }
