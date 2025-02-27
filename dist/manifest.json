@@ -14,10 +14,6 @@
       ]
     }
   ],
-  "permissions": [],
-  "host_permissions": [
-    "*://localhost/*"
-  ],
   "web_accessible_resources": [
     {
       "matches": [

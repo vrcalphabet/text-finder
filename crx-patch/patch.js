@@ -23,6 +23,14 @@ if (!stylePaths) {
 manifest.web_accessible_resources[0].resources.push(...stylePaths);
 delete manifest.content_scripts[0].css;
 
+const permissions = manifest.host_permissions;
+if (permissions) {
+  manifest.host_permissions = permissions.filter(permission => permission !== '*://localhost/*');
+  if (manifest.host_permissions.length === 0) {
+    delete manifest.host_permissions;
+  }
+}
+
 console.log('css-injection.jsをdist/assetsに書込中...');
 const sourceFile = path.resolve(patchDir, 'css-injection.js');
 const targetFile = path.resolve(distDir, 'assets/css-injection.js');
