@@ -11,7 +11,6 @@ interface Position {
 }
 
 const Draggable: React.FC<Props> = ({ target }) => {
-  console.log('target', target);
   const offsetRef = useRef<Position>({ x: 0, y: 0 });
   const windowWidth = window.innerWidth;
   const windowHeight = window.innerHeight;

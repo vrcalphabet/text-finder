@@ -30,8 +30,6 @@ export default class NodeFinder {
     if (!root) return [];
 
     this.recursive(root);
-
-    console.log(this.nodes);
     return [...this.nodes.values()];
   }
 

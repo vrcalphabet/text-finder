@@ -10,7 +10,6 @@ export default class XPathGenerator {
   public generate(target: Node): string {
     this.target = target;
     const path = this.createPath();
-    console.log(path);
 
     return this.getXPath(path);
   }
@@ -66,7 +65,6 @@ export default class XPathGenerator {
   }
 
   private getChildElements(node: Element, tagName: string, className?: string): Element[] {
-    console.log(node, node.children, tagName, className);
     return [...node.children].filter(
       (child) =>
         child.tagName.toLowerCase() === tagName &&
