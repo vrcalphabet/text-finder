@@ -39,6 +39,7 @@ export default tseslint.config(
           accessibility: 'explicit',
         },
       ],
+      "@typescript-eslint/no-extra-parens": ["warn", "all"]
     },
   }
 );
