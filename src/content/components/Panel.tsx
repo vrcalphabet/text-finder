@@ -3,6 +3,7 @@ import Draggable from './Draggable';
 import Entry from './Entry';
 import { INodeData } from '../models/interfaces';
 import XPathGenerator from '../models/XpathGenerator';
+import Button from './Button';
 
 interface Props {
   currentOverlay: INodeData | null;
@@ -16,6 +17,12 @@ const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible }) => {
   useEffect(() => {
     setPanel(panelRef.current);
   }, []);
+  
+  function buttonClickHandler(): void {
+    if (currentOverlay) {
+      console.log('[text-finder] ', currentOverlay.target);
+    }
+  }
 
   return (
     <div
@@ -32,6 +39,7 @@ const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible }) => {
       <Entry title="[title]" value={currentOverlay?.title ?? ''} />
       <Entry title="[placeholder]" value={currentOverlay?.placeholder ?? ''} />
       <Entry title="textContent" value={currentOverlay?.textContent ?? ''} />
+      <Button value="Output Target to Log" onClick={buttonClickHandler} />
     </div>
   );
 };
