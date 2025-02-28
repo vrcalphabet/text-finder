@@ -19,14 +19,8 @@ export default class NodeFinder {
     this.nodes = new Map();
   }
 
-  private getRoot(): HTMLElement | null {
-    return document.querySelector('div#app > main');
-  }
-
-  public findNodes(): INodeData[] {
+  public findNodes(root: HTMLElement): INodeData[] {
     this.nodes.clear();
-
-    const root = this.getRoot();
     if (!root) return [];
 
     this.recursive(root);

@@ -6,20 +6,27 @@ export default class XPathGenerator {
 
   private classNamePattern = /^e[a-z0-9]+\d$/;
   private target!: Node;
+  private root!: HTMLElement;
 
-  public generate(target: Node): string {
+  public generate(root: HTMLElement, target: Node): string {
+    this.root = root;
     this.target = target;
     const path = this.createPath();
 
-    return this.getXPath(path);
+    const xpath = this.getXPath(path);
+    if (root === document.body) {
+      return `::${xpath}`;
+    }
+    return xpath;
   }
 
   private createPath(): Node[] {
-    const root = document.querySelector('div#app > main')!;
-
     const path: Node[] = [];
     let current: Node = this.target;
-    while (current !== root) {
+    while (true) {
+      if (current === this.root || current === null) {
+        break;
+      }
       path.unshift(current);
       current = current.parentNode!;
     }
