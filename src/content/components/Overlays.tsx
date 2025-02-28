@@ -9,7 +9,7 @@ interface Props {
   setCurrentOverlay: (value: INodeData | null) => void;
   isOverlayVisible: boolean;
   setIsOverlayVisible: (value: boolean) => void;
-  setRoot: (value: HTMLElement | null) => void;
+  rootRef: React.RefObject<HTMLElement | null>;
 }
 
 const Overlays: React.FC<Props> = ({
@@ -17,7 +17,7 @@ const Overlays: React.FC<Props> = ({
   setCurrentOverlay,
   isOverlayVisible,
   setIsOverlayVisible,
-  setRoot,
+  rootRef,
 }) => {
   const [nodes, setNodes] = useState<INodeData[]>([]);
   const [hoverGroupId, setHoverGroupId] = useState<number | null>(null);
@@ -26,14 +26,14 @@ const Overlays: React.FC<Props> = ({
   useEffect(() => {
     Mousetrap.bind('alt+g', () => {
       findNodes(document.body);
-      setRoot(document.body);
+      rootRef.current = document.body;
       return false;
     });
 
     Mousetrap.bind('alt+h', () => {
       const root = document.querySelector<HTMLElement>('div#app > main')!;
       findNodes(root);
-      setRoot(root);
+      rootRef.current = root;
       return false;
     });
 

@@ -8,10 +8,10 @@ import Button from './Button';
 interface Props {
   currentOverlay: INodeData | null;
   isOverlayVisible: boolean;
-  root: HTMLElement | null;
+  rootRef: React.RefObject<HTMLElement | null>;
 }
 
-const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible, root }) => {
+const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible, rootRef }) => {
   const panelRef = useRef<HTMLDivElement>(null);
   const [panel, setPanel] = useState<HTMLDivElement | null>(null);
 
@@ -35,7 +35,7 @@ const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible, root }) => {
       <Draggable target={panel} />
       <Entry
         title="XPath"
-        value={currentOverlay ? XPathGenerator.getInstance().generate(root!, currentOverlay.target) : ''}
+        value={currentOverlay ? XPathGenerator.getInstance().generate(rootRef.current!, currentOverlay.target) : ''}
       />
       <Entry title="[title]" value={currentOverlay?.title ?? ''} />
       <Entry title="[placeholder]" value={currentOverlay?.placeholder ?? ''} />
