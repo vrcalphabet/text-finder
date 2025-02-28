@@ -5,6 +5,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+console.log('パッチを適用します');
+
 const distDir = path.resolve(__dirname, '../dist');
 const patchDir = path.resolve(__dirname, '../crx-patch');
 
@@ -41,4 +43,4 @@ fs.writeFileSync(targetFile, source);
 console.log('dist/manifest.jsonを書換中...');
 fs.writeFileSync(manifestFile, JSON.stringify(manifest, null, 2));
 
-console.log('パッチが完了しました');
+console.log('パッチを適用しました');
