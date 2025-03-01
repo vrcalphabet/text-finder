@@ -38,6 +38,7 @@ const Overlays: React.FC<Props> = ({
     });
 
     Mousetrap.bind('esc', () => {
+      setCurrentOverlay(null);
       setIsOverlayVisible(false);
       return false;
     });
