@@ -149,7 +149,7 @@ export default class NodeFinder {
       target: svg,
       title: null,
       placeholder: null,
-      textContent: title.textContent!,
+      textContent: this.validateText(title.textContent),
       sizes: SizeCalculator.calculate(svg),
     });
   }
@@ -159,7 +159,7 @@ export default class NodeFinder {
       target: node,
       title: null,
       placeholder: null,
-      textContent: node.nodeValue,
+      textContent: this.validateText(node.nodeValue),
       sizes: SizeCalculator.calculate(node),
     });
   }
@@ -167,10 +167,15 @@ export default class NodeFinder {
   private addHTMLElementMetadata(node: HTMLElement, hasTextContent: boolean): void {
     this.addMetadata({
       target: node,
-      title: node.getAttribute('title'),
-      placeholder: node.getAttribute('placeholder'),
-      textContent: hasTextContent ? node.textContent : null,
+      title: this.validateText(node.getAttribute('title')),
+      placeholder: this.validateText(node.getAttribute('placeholder')),
+      textContent: hasTextContent ? this.validateText(node.textContent) : null,
       sizes: SizeCalculator.calculate(node),
     });
+  }
+
+  private validateText(text: string | null): string | null {
+    if (!text) return null;
+    return text.trim().replaceAll('\n', '\\n');
   }
 }
