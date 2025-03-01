@@ -2,12 +2,12 @@
   "$schema": "https://json.schemastore.org/chrome-manifest.json",
   "manifest_version": 3,
   "name": "テキストファインダー",
-  "version": "1.6",
+  "version": "1.7",
   "content_scripts": [
     {
       "js": [
         "assets/css-injection.js",
-        "assets/main.tsx-loader-Bs1EPnrq.js"
+        "assets/main.tsx-loader-67HXowUL.js"
       ],
       "matches": [
         "*://vrchat.com/*"
@@ -20,7 +20,7 @@
         "*://vrchat.com/*"
       ],
       "resources": [
-        "assets/main.tsx-DpKz4e35.js",
+        "assets/main.tsx-B_f3-Fui.js",
         "assets/main-CHUlhBCY.css"
       ],
       "use_dynamic_url": false
