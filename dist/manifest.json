@@ -7,7 +7,7 @@
     {
       "js": [
         "assets/css-injection.js",
-        "assets/main.tsx-loader-DI7z4oft.js"
+        "assets/main.tsx-loader-B-r4t4Kv.js"
       ],
       "matches": [
         "*://vrchat.com/*"
@@ -20,7 +20,7 @@
         "*://vrchat.com/*"
       ],
       "resources": [
-        "assets/main.tsx-a3DzahFY.js",
+        "assets/main.tsx-CUCzb0j-.js",
         "assets/main-CHUlhBCY.css"
       ],
       "use_dynamic_url": false
