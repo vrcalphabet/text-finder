@@ -18,7 +18,7 @@ const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible, rootRef }) =
   useEffect(() => {
     setPanel(panelRef.current);
   }, []);
-  
+
   function buttonClickHandler(): void {
     if (currentOverlay) {
       console.log('[text-finder] ', currentOverlay.target);
@@ -33,10 +33,7 @@ const Panel: React.FC<Props> = ({ currentOverlay, isOverlayVisible, rootRef }) =
       }`}
     >
       <Draggable target={panel} />
-      <Entry
-        title="XPath"
-        value={currentOverlay ? XPathGenerator.getInstance().generate(rootRef.current!, currentOverlay.target) : ''}
-      />
+      <Entry title="XPath" value={currentOverlay?.xpath ?? ''} />
       <Entry title="[title]" value={currentOverlay?.title ?? ''} />
       <Entry title="[placeholder]" value={currentOverlay?.placeholder ?? ''} />
       <Entry title="textContent" value={currentOverlay?.textContent ?? ''} />

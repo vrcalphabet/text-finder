@@ -1,5 +1,6 @@
 import { INodeData } from './interfaces';
 import SizeCalculator from './SizeCalculator';
+import XPathGenerator from './XpathGenerator';
 
 interface IPosition {
   x: number;
@@ -13,6 +14,7 @@ export default class NodeFinder {
   }
 
   private static ignoreTags = new Set(['IFRAME', 'NOSCRIPT', 'SCRIPT', 'TEXTAREA']);
+  private root!: HTMLElement;
   private nodes: Map<Node, INodeData>;
 
   private constructor() {
@@ -23,6 +25,7 @@ export default class NodeFinder {
     this.nodes.clear();
     if (!root) return [];
 
+    this.root = root;
     this.recursive(root);
     return [...this.nodes.values()];
   }
@@ -133,6 +136,7 @@ export default class NodeFinder {
     if (oldMetadata) {
       const newMetadata: INodeData = {
         target: oldMetadata.target,
+        xpath: metadata.xpath ?? oldMetadata.xpath,
         title: metadata.title ?? oldMetadata.title,
         placeholder: metadata.placeholder ?? oldMetadata.placeholder,
         textContent: metadata.textContent ?? oldMetadata.textContent,
@@ -147,6 +151,7 @@ export default class NodeFinder {
   private addSVGTitleMetadata(svg: SVGElement, title: HTMLElement): void {
     this.addMetadata({
       target: svg,
+      xpath: XPathGenerator.getInstance().generate(this.root, svg),
       title: null,
       placeholder: null,
       textContent: this.validateText(title.textContent),
@@ -157,6 +162,7 @@ export default class NodeFinder {
   private addTextMetadata(node: Text): void {
     this.addMetadata({
       target: node,
+      xpath: XPathGenerator.getInstance().generate(this.root, node),
       title: null,
       placeholder: null,
       textContent: this.validateText(node.nodeValue),
@@ -167,6 +173,7 @@ export default class NodeFinder {
   private addHTMLElementMetadata(node: HTMLElement, hasTextContent: boolean): void {
     this.addMetadata({
       target: node,
+      xpath: XPathGenerator.getInstance().generate(this.root, node),
       title: this.validateText(node.getAttribute('title')),
       placeholder: this.validateText(node.getAttribute('placeholder')),
       textContent: hasTextContent ? this.validateText(node.textContent) : null,
