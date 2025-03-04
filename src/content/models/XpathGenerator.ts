@@ -1,3 +1,6 @@
+import { IXpathData } from './interfaces';
+import SizeCalculator from './SizeCalculator';
+
 export default class XPathGenerator {
   private static INSTANCE: XPathGenerator = new XPathGenerator();
   public static getInstance(): XPathGenerator {
@@ -8,40 +11,43 @@ export default class XPathGenerator {
   private target!: Node;
   private root!: HTMLElement;
 
-  public generate(root: HTMLElement, target: Node): string {
+  public generate(root: HTMLElement, target: Node): IXpathData[] {
     this.root = root;
     this.target = target;
     const path = this.createPath();
-
-    const xpath = this.getXPath(path);
-    if (root === document.body) {
-      return `::${xpath}`;
-    }
-    return xpath;
+    this.setXPath(path);
+    
+    return path;
   }
 
-  private createPath(): Node[] {
-    const path: Node[] = [];
+  private createPath(): IXpathData[] {
+    const path: IXpathData[] = [];
     let current: Node = this.target;
     while (true) {
-      if (current === this.root || current === null) {
+      if (!current || current === this.root) {
         break;
       }
-      path.unshift(current);
-      current = current.parentNode!;
+      path.unshift({
+        target: current,
+        value: current.parentElement! === document.body ? '::' : '',
+        sizes: SizeCalculator.calculate(current),
+      });
+      current = current.parentElement!;
     }
     return path;
   }
 
-  private getXPath(path: Node[]): string {
-    return path.map(this.getPartialXPath.bind(this)).join('');
+  private setXPath(path: IXpathData[]): void {
+    for (const p of path) {
+      this.setPartialXPath(p);
+    }
   }
 
-  private getPartialXPath(node: Node): string {
-    if (node instanceof Text) {
-      return this.getPartialTextXPath(node);
+  private setPartialXPath(node: IXpathData): void {
+    if (node.target instanceof Text) {
+      node.value += this.getPartialTextXPath(node.target);
     } else {
-      return this.getPartialElementXPath(node as Element);
+      node.value += this.getPartialElementXPath(node.target as Element);
     }
   }
 

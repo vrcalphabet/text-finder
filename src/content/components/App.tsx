@@ -9,7 +9,7 @@ interface Props {
 }
 
 const App: React.FC<Props> = ({ shadowRoot }) => {
-  const root = useRef<HTMLElement | null>(null);
+  const root = useRef<HTMLElement>(null);
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const [currentOverlay, setCurrentOverlay] = useState<INodeData | null>(null);
 

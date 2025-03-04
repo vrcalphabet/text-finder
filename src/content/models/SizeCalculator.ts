@@ -1,11 +1,13 @@
 import { IRectangle } from './interfaces';
 
 export default class SizeCalculator {
-  public static calculate(node: Text | HTMLElement | SVGElement): IRectangle[] {
+  public static calculate(node: Node): IRectangle[] {
     if (node instanceof Text) {
       return this.calcTextSize(node);
+    } else if (node instanceof Element) {
+      return this.calcHTMLElementSize(node as Element);
     } else {
-      return this.calcHTMLElementSize(node);
+      return [];
     }
   }
 
@@ -13,7 +15,7 @@ export default class SizeCalculator {
     const range = document.createRange();
     range.selectNodeContents(node);
     const rects = range.getClientRects();
-    const rectsList = this.filterNonNewline(Array.from(rects));
+    const rectsList = this.filterNonNewline([...rects]);
     return this.validateDOMRects(rectsList);
   }
 
@@ -21,7 +23,7 @@ export default class SizeCalculator {
     return domRects.filter((domRect) => domRect.left < domRect.right);
   }
 
-  private static calcHTMLElementSize(node: HTMLElement | SVGElement): IRectangle[] {
+  private static calcHTMLElementSize(node: Element): IRectangle[] {
     const rect = node.getBoundingClientRect();
     return this.validateDOMRects([rect]);
   }

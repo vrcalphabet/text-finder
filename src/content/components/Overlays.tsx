@@ -48,6 +48,7 @@ const Overlays: React.FC<Props> = ({
     setIsOverlayVisible(false);
     setTimeout(() => {
       const foundNodes = NodeFinder.getInstance().findNodes(root);
+      console.log(foundNodes);
       setNodes(foundNodes);
       setIsOverlayVisible(true);
     }, 0);

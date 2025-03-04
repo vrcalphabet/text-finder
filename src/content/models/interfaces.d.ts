@@ -7,9 +7,15 @@ export interface IRectangle {
 
 export interface INodeData {
   target: HTMLElement | SVGElement | Text;
-  xpath: string;
-  title: string | null;
-  placeholder: string | null;
-  textContent: string | null;
+  xpath: IXpathData[];
+  title: string | void;
+  placeholder: string | void;
+  textContent: string | void;
+  sizes: IRectangle[];
+}
+
+export interface IXpathData {
+  target: Node;
+  value: string;
   sizes: IRectangle[];
 }

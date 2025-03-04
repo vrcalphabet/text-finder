@@ -4,7 +4,7 @@ export default class OverlaySelector {
     root: Document | ShadowRoot,
     mouseX: number,
     mouseY: number
-  ): HTMLElement | null {
+  ): HTMLElement | void {
     const elements = root.elementsFromPoint(mouseX, mouseY) as HTMLElement[];
     return this.selectOverlayBySize(this.filterOverlay(elements));
   }
@@ -13,8 +13,8 @@ export default class OverlaySelector {
     return elements.filter((element) => element?.dataset.overlayId !== void 0);
   }
 
-  private static selectOverlayBySize(overlays: HTMLElement[]): HTMLElement | null {
-    if (overlays.length === 0) return null;
+  private static selectOverlayBySize(overlays: HTMLElement[]): HTMLElement | void {
+    if (overlays.length === 0) return;
 
     const overlaySizes = overlays.map((overlay) => {
       const { width, height } = overlay.getBoundingClientRect();
@@ -24,6 +24,6 @@ export default class OverlaySelector {
       return prev.size < current.size ? prev : current;
     });
 
-    return smallestOverlay.target.parentElement;
+    return smallestOverlay.target.parentElement ?? void 0;
   }
 }

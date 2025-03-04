@@ -82,11 +82,11 @@ export default class NodeFinder {
   }
 
   private hasTitleElement(node: SVGElement): boolean {
-    return this.getTitleElement(node) !== null;
+    return !!this.getTitleElement(node);
   }
 
-  private getTitleElement(node: SVGElement): HTMLElement | null {
-    return node.querySelector<HTMLElement>(':scope > title');
+  private getTitleElement(node: SVGElement): HTMLElement | void {
+    return node.querySelector<HTMLElement>(':scope > title') ?? void 0;
   }
 
   private hasAttribute(node: HTMLElement): boolean {
@@ -152,8 +152,8 @@ export default class NodeFinder {
     this.addMetadata({
       target: svg,
       xpath: XPathGenerator.getInstance().generate(this.root, svg),
-      title: null,
-      placeholder: null,
+      title: void 0,
+      placeholder: void 0,
       textContent: this.validateText(title.textContent),
       sizes: SizeCalculator.calculate(svg),
     });
@@ -163,8 +163,8 @@ export default class NodeFinder {
     this.addMetadata({
       target: node,
       xpath: XPathGenerator.getInstance().generate(this.root, node),
-      title: null,
-      placeholder: null,
+      title: void 0,
+      placeholder: void 0,
       textContent: this.validateText(node.nodeValue),
       sizes: SizeCalculator.calculate(node),
     });
@@ -176,13 +176,13 @@ export default class NodeFinder {
       xpath: XPathGenerator.getInstance().generate(this.root, node),
       title: this.validateText(node.getAttribute('title')),
       placeholder: this.validateText(node.getAttribute('placeholder')),
-      textContent: hasTextContent ? this.validateText(node.textContent) : null,
+      textContent: hasTextContent ? this.validateText(node.textContent) : void 0,
       sizes: SizeCalculator.calculate(node),
     });
   }
 
-  private validateText(text: string | null): string | null {
-    if (!text) return null;
+  private validateText(text: string | null): string | void {
+    if (!text) return;
     return text.trim().replaceAll('\n', '\\n');
   }
 }
