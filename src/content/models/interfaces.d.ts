@@ -17,5 +17,6 @@ export interface INodeData {
 export interface IXpathData {
   target: Node;
   value: string;
-  sizes: IRectangle[];
+  size: IRectangle | null;
+  otherSizes: IRectangle[];
 }

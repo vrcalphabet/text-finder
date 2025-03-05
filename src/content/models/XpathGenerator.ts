@@ -1,4 +1,4 @@
-import { IXpathData } from './interfaces';
+import { IRectangle, IXpathData } from './interfaces';
 import SizeCalculator from './SizeCalculator';
 
 export default class XPathGenerator {
@@ -16,7 +16,7 @@ export default class XPathGenerator {
     this.target = target;
     const path = this.createPath();
     this.setXPath(path);
-    
+
     return path;
   }
 
@@ -27,11 +27,26 @@ export default class XPathGenerator {
       if (!current || current === this.root) {
         break;
       }
-      path.unshift({
-        target: current,
-        value: current.parentElement! === document.body ? '::' : '',
-        sizes: SizeCalculator.calculate(current),
-      });
+
+      if (current instanceof Text) {
+        path.unshift({
+          target: current,
+          value: '',
+          size: null,
+          otherSizes: [],
+        });
+      } else {
+        const children = current.parentElement!.children;
+        const filteredChildren = [...children].filter((child) => child !== current);
+
+        path.unshift({
+          target: current,
+          value: current.parentElement! === document.body ? '::' : '',
+          size: SizeCalculator.calculate(current)[0],
+          otherSizes: filteredChildren.map((child) => SizeCalculator.calculate(child)[0]),
+        });
+      }
+
       current = current.parentElement!;
     }
     return path;
