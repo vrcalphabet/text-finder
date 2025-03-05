@@ -10,4 +10,4 @@ async function p(path) {
   style.textContent = content;
   document.head.append(style);
 }
-s(["assets/main-BR8ZEEQd.css"]);
+s(["assets/main-DeIXHjND.css"]);
